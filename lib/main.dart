@@ -3,10 +3,12 @@ import 'package:to_do/app_theme.dart';
 import 'package:to_do/home_screen.dart';
 
 void main() {
-  runApp( TodoApp());
+  runApp( const TodoApp());
 }
 
 class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class TodoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'To do App',
       routes: {
-        HomeScreen.routeName:(_)=>HomeScreen(),
+        HomeScreen.routeName:(_)=>const HomeScreen(),
       },
       initialRoute:  HomeScreen.routeName,
       theme: AppTheme.lightTheme,

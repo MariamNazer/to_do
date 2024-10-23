@@ -14,18 +14,24 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: lightBackground,
       primaryColor: primary,
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
           backgroundColor: white,
           unselectedItemColor: grey,
           selectedItemColor: primary,
           showSelectedLabels: false,
           showUnselectedLabels: false),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: primary,
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: primary,
           foregroundColor: white,
           shape: CircleBorder(
             side: BorderSide(width:4,color: white )
-          ))
+          )),
+          textTheme: const TextTheme(
+            titleMedium: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: black),
+            titleSmall: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w400, color: black)
+          )
           );
   static ThemeData darktTheme = ThemeData();
+
 }
