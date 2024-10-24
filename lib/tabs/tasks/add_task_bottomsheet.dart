@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do/models/task_model.dart';
 import 'package:to_do/widgets/dafult_text_form_fielld.dart';
 import 'package:to_do/widgets/defult_elevated_button.dart';
 
@@ -98,5 +99,11 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
     );
   }
 
-  void addTask() {}
+  void addTask() {
+    TaskModel task= TaskModel(
+      title: titltcontroller.text,
+      date: selectedDate,
+      description: descriptiontcontroller.text,
+    );
+  }
 }
