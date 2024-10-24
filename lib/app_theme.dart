@@ -20,18 +20,21 @@ class AppTheme {
           unselectedItemColor: grey,
           selectedItemColor: primary,
           showSelectedLabels: false,
-          showUnselectedLabels: false),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: primary,
+          showUnselectedLabels: false,),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: primary,
           foregroundColor: white,
-          shape: CircleBorder(
-            side: BorderSide(width:4,color: white )
-          )),
-          textTheme: const TextTheme(
-            titleMedium: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: black),
-            titleSmall: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w400, color: black)
-          )
-          );
+          shape: CircleBorder(side: BorderSide(width: 4, color: white))),
+      textTheme: const TextTheme(
+          titleMedium: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: black),
+          titleSmall: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w400, color: black)),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+        backgroundColor: primary,
+        
+      )),
+       );
   static ThemeData darktTheme = ThemeData();
-
 }

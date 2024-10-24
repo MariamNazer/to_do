@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do/app_theme.dart';
 import 'package:to_do/tabs/settings/settings_tab.dart';
+import 'package:to_do/tabs/tasks/add_task_bottomsheet.dart';
 import 'package:to_do/tabs/tasks/tasks_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -37,7 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: ()=>showModalBottomSheet(context: context,builder: (_)=>const AddTaskBottomsheet()),//بستخدمها عشان تفتحلي botoomsheet
+
         child: const Icon(
           Icons.add,
           size: 20,
