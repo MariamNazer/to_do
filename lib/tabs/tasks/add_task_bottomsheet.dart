@@ -75,8 +75,8 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
                     initialEntryMode: DatePickerEntryMode.calendar);
                 if (dateTime != null && selectedDate != dateTime) {
                   selectedDate = dateTime;
+                  setState(() {});
                 }
-                setState(() {});
               },
               child: Text(
                 dateFormat.format(selectedDate),
@@ -100,7 +100,7 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
   }
 
   void addTask() {
-    TaskModel task= TaskModel(
+    TaskModel task = TaskModel(
       title: titltcontroller.text,
       date: selectedDate,
       description: descriptiontcontroller.text,

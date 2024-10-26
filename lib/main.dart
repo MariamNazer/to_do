@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:to_do/app_theme.dart';
 import 'package:to_do/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp( const TodoApp());
+Future<void> main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); //لازم اسخدمها عشان تتأكد ان الحاجة اللي عليها await خلصت كل ال initialization كلها
+  await Firebase.initializeApp();
+  runApp(const TodoApp());
 }
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +19,9 @@ class TodoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'To do App',
       routes: {
-        HomeScreen.routeName:(_)=>const HomeScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
       },
-      initialRoute:  HomeScreen.routeName,
+      initialRoute: HomeScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darktTheme,
       themeMode: ThemeMode.light,

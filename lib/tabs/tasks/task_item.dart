@@ -5,7 +5,7 @@ import 'package:to_do/models/task_model.dart';
 class TaskItem extends StatelessWidget {
   TaskModel task;
 
-  TaskItem(this.task);
+  TaskItem(this.task, {super.key});
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
