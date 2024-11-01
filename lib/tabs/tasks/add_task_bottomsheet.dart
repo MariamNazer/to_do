@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do/firebase_functions.dart';
 import 'package:to_do/models/task_model.dart';
+import 'package:to_do/tabs/tasks/tasks_provider.dart';
 import 'package:to_do/widgets/dafult_text_form_fielld.dart';
 import 'package:to_do/widgets/defult_elevated_button.dart';
 
@@ -104,6 +107,13 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
       title: titltcontroller.text,
       date: selectedDate,
       description: descriptiontcontroller.text,
+    );
+    FirebaseFunctions.addTaskToFiresore(task).timeout(
+      const Duration(microseconds: 100),
+      onTimeout: () {
+        Navigator.of(context).pop();
+        Provider.of<TasksProvider>(context,listen: false).getTask();
+      },
     );
   }
 }

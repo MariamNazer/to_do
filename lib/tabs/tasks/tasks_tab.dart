@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
-import 'package:to_do/models/task_model.dart';
 import 'package:to_do/tabs/tasks/task_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:to_do/tabs/tasks/tasks_provider.dart';
 
-class TasksTab extends StatelessWidget {
+class TasksTab extends StatefulWidget {
   const TasksTab({super.key});
 
   @override
+  State<TasksTab> createState() => _TasksTabState();
+}
+
+class _TasksTabState extends State<TasksTab> {
+  bool shouldGetTasks = true;
+  @override
   Widget build(BuildContext context) {
-    List<TaskModel> tasks = List.generate(
-        10,
-        (index) => TaskModel(
-            title: 'title $index',
-            date: DateTime.now(),
-            description: 'description $index'));
+    TasksProvider tasksProvider = Provider.of<TasksProvider>(context);
+    if (shouldGetTasks) {
+      tasksProvider.getTask();
+      shouldGetTasks = false;
+    }
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ThemeData theme = Theme.of(context);
@@ -74,8 +80,8 @@ class TasksTab extends StatelessWidget {
         Expanded(
             child: ListView.builder(
           padding: EdgeInsets.only(top: height * 0.03),
-          itemBuilder: (_, index) => TaskItem(tasks[index]),
-          itemCount: tasks.length,
+          itemBuilder: (_, index) => TaskItem(tasksProvider.tasks[index]),
+          itemCount: tasksProvider.tasks.length,
         )),
       ],
     );
