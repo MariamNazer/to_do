@@ -17,6 +17,11 @@ class FirebaseFunctions {
   static Future<List<TaskModel>> gitAllTasksFirestore() async {
     CollectionReference<TaskModel> tasksCollection = getCollection();
     QuerySnapshot<TaskModel> querySnapshot = await tasksCollection.get();
-    return querySnapshot.docs.map((docSnapshot)=>docSnapshot.data()).toList();
+    return querySnapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
+  }
+
+  static Future<void> deleteTaskFromFirestore(String taskId) async {
+    CollectionReference<TaskModel> tasksCollection = getCollection();
+    return tasksCollection.doc(taskId).delete();
   }
 }

@@ -15,15 +15,14 @@ class TaskModel {
   TaskModel.fromJson(Map<String, dynamic> json)
       : this(
           date: (json['date'] as Timestamp).toDate(),
-          description:
-              json['description'] ?? '', 
+          description: json['description'] ?? '',
           title: json['title'] ?? '',
-          taskId: json['taskId'] ?? '', 
+          taskId: json['taskId'] ?? '',
           isDone: json['isDone'] is bool ? json['isDone'] : false,
         );
 
   Map<String, dynamic> toJson() => {
-        'id': taskId,
+        'taskId': taskId,
         'description': description,
         'title': title,
         'isDone': isDone,
