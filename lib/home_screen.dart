@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: tabs[currentTabsIndex],
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),//الشكل اللي هقص ع زيه  
+        shape: const CircularNotchedRectangle(), //الشكل اللي هقص ع زيه
         notchMargin: 10, //هنا بحدد المساحة اللي هقصها
         clipBehavior: Clip.antiAliasWithSaveLayer, //هنا بقص بقى
 
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
             currentIndex: currentTabsIndex,
             onTap: (index) => setState(() => currentTabsIndex = index),
-            elevation: 0, //عشان ميسبش مساحه بينه وبين الاسكرين 
+            elevation: 0, //عشان ميسبش مساحه بينه وبين الاسكرين
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.list), label: 'tasks'),
               BottomNavigationBarItem(
@@ -38,7 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>showModalBottomSheet(context: context,builder: (_)=>const  AddTaskBottomsheet()),//بستخدمها عشان تفتحلي botoomsheet
+        onPressed: () => showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) =>
+                const AddTaskBottomsheet()), //بستخدمها عشان تفتحلي botoomsheet
 
         child: const Icon(
           Icons.add,
