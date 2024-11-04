@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do/app_theme.dart';
 import 'package:to_do/tabs/settings/settings_tab.dart';
+import 'package:to_do/tabs/tasks/add_task_bottomsheet.dart';
 import 'package:to_do/tabs/tasks/tasks_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> tabs = [const TasksTab(), const SettingsTab()];
+  List<Widget> tabs = [ TasksTab(),  SettingsTab()];
   int currentTabsIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
             currentIndex: currentTabsIndex,
             onTap: (index) => setState(() => currentTabsIndex = index),
-            elevation: 0, //عشان ميسبش مساحه بينه وبين الاسكرين 
+            elevation: 0, //عشان ميسبش مساحه بينه وبين الاسكرين//عشان ميسبش مساحه بينه وبين الاسكرين 
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.list), label: 'tasks'),
               BottomNavigationBarItem(
@@ -37,8 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(
+        onPressed: () => showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) =>
+                const AddTaskBottomsheet()), //بستخدمها عشان تفتحلي botoomsheet
+
+        child: const  Icon(
           Icons.add,
           size: 20,
         ),
