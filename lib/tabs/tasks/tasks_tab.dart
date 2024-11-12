@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
+import 'package:to_do/tabs/settings/settings_provider.dart';
 import 'package:to_do/tabs/tasks/task_item.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:to_do/tabs/tasks/tasks_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TasksTab extends StatefulWidget {
   const TasksTab({super.key});
@@ -17,6 +19,8 @@ class _TasksTabState extends State<TasksTab> {
   @override
   Widget build(BuildContext context) {
     TasksProvider tasksProvider = Provider.of<TasksProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+
     if (shouldGetTasks) {
       tasksProvider.getTask();
       shouldGetTasks = false;
@@ -33,10 +37,14 @@ class _TasksTabState extends State<TasksTab> {
             color: AppTheme.primary,
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(width * 0.1, height * 0.06, 0, 0),
-            child: Text('To Do List',
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(color: AppTheme.white, fontSize: 22)),
+            padding:
+                EdgeInsets.fromLTRB(width * 0.1, height * 0.06, width * 0.1, 0),
+            child: Text(AppLocalizations.of(context)!.to_do,
+                style: theme.textTheme.titleMedium?.copyWith(
+                    color: settingsProvider.defultThemeMode == ThemeMode.light
+                        ? AppTheme.white
+                        : AppTheme.darkBackground,
+                    fontSize: 22)),
           ),
           Padding(
             padding: EdgeInsetsDirectional.only(top: height * 0.151),
@@ -53,31 +61,47 @@ class _TasksTabState extends State<TasksTab> {
                   height: height * 0.12,
                   width: width * 0.16,
                   dayStructure: DayStructure.dayStrDayNum,
-                  activeDayStyle: const DayStyle(
+                  activeDayStyle: DayStyle(
                       decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        color:
+                            settingsProvider.defultThemeMode == ThemeMode.light
+                                ? AppTheme.white
+                                : AppTheme.dark,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
                       ),
-                      dayNumStyle: TextStyle(
+                      dayNumStyle: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primary),
-                      dayStrStyle: TextStyle(
+                      dayStrStyle: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primary)),
-                  inactiveDayStyle: const DayStyle(
+                  inactiveDayStyle: DayStyle(
                       decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                          color: settingsProvider.defultThemeMode ==
+                                  ThemeMode.light
+                              ? AppTheme.white
+                              : AppTheme.dark,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5))),
                       dayNumStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.black),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            settingsProvider.defultThemeMode == ThemeMode.light
+                                ? AppTheme.black
+                                : AppTheme.white,
+                      ),
                       dayStrStyle: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.black)),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            settingsProvider.defultThemeMode == ThemeMode.light
+                                ? AppTheme.black
+                                : AppTheme.white,
+                      )),
                   todayStyle: const DayStyle(
                       decoration: BoxDecoration(
                           color: AppTheme.white,

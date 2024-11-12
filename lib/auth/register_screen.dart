@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:to_do/app_theme.dart';
 import 'package:to_do/auth/login_screen.dart';
 import 'package:to_do/widgets/dafult_text_form_fielld.dart';
 import 'package:to_do/widgets/defult_elevated_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: use_key_in_widget_constructors
 class RegisterScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: Text(AppLocalizations.of(context)!.register),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -33,10 +33,10 @@ class _LoginScreenState extends State<RegisterScreen> {
             children: [
               DafultTaskFormFielld(
                 controller: nameController,
-                hintText: 'Name',
+                hintText: AppLocalizations.of(context)!.name,
                 validator: (value) {
                   if (value == null || value.trim().length < 3) {
-                    return 'Name can not be less than 3 characters';
+                    return AppLocalizations.of(context)!.name_error;
                   }
                   return null;
                 },
@@ -44,10 +44,10 @@ class _LoginScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               DafultTaskFormFielld(
                 controller: emailController,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.email,
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
-                    return 'Email can not be less than 5 characters';
+                    return AppLocalizations.of(context)!.email_error;
                   }
                   return null;
                 },
@@ -55,21 +55,23 @@ class _LoginScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               DafultTaskFormFielld(
                 controller: passwordController,
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.password,
                 validator: (value) {
-                  if (value == null || value.trim().length < 5) {
-                    return 'Password can not be less than 8 characters';
+                  if (value == null || value.trim().length < 8) {
+                    return AppLocalizations.of(context)!.password_error;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 30),
-              DefultElevatedButton(lable: 'Register', onPressed: login),
+              DefultElevatedButton(
+                  lable: AppLocalizations.of(context)!.register,
+                  onPressed: login),
               const SizedBox(height: 8),
               TextButton(
                   onPressed: () => Navigator.of(context)
                       .pushReplacementNamed(LoginScreen.routeName),
-                  child: const Text("Already have an account")),
+                  child: Text(AppLocalizations.of(context)!.already_have)),
             ],
           ),
         ),
@@ -79,6 +81,5 @@ class _LoginScreenState extends State<RegisterScreen> {
 
   void login() {
     if (formKey.currentState!.validate()) {}
-    ;
   }
 }

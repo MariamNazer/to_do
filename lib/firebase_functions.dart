@@ -20,8 +20,24 @@ class FirebaseFunctions {
     return querySnapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
+  static Future<void> updateTaskStatus(String taskId, bool isDone) async {
+    CollectionReference<TaskModel> tasksCollection = getCollection();
+    return tasksCollection.doc(taskId).update({'isDone': isDone});
+  }
+
   static Future<void> deleteTaskFromFirestore(String taskId) async {
     CollectionReference<TaskModel> tasksCollection = getCollection();
     return tasksCollection.doc(taskId).delete();
+  }
+
+  static Future<void> editTaskStatus(
+      String taskId, String name, String description, DateTime date) async {
+    CollectionReference<TaskModel> tasksCollection = getCollection();
+    await tasksCollection.doc(taskId).update({
+      'title': name,
+      'description': description,
+      'date': Timestamp.fromDate(date), // تحويل التاريخ إلى Timestamp
+    });
+    
   }
 }

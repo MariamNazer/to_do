@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:to_do/app_theme.dart';
 import 'package:to_do/auth/register_screen.dart';
 import 'package:to_do/home_screen.dart';
 import 'package:to_do/widgets/dafult_text_form_fielld.dart';
 import 'package:to_do/widgets/defult_elevated_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: use_key_in_widget_constructors
 class LoginScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text(AppLocalizations.of(context)!.login),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -32,13 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-             
               DafultTaskFormFielld(
                 controller: emailController,
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.email,
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
-                    return 'Email can not be less than 5 characters';
+                    return AppLocalizations.of(context)!.email_error;
                   }
                   return null;
                 },
@@ -46,21 +45,23 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
               DafultTaskFormFielld(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
+                isPassword: true,
                 validator: (value) {
                   if (value == null || value.trim().length < 5) {
-                    return 'Password can not be less than 8 characters';
+                    return AppLocalizations.of(context)!.password_error;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 30),
-              DefultElevatedButton(lable: 'Login', onPressed: login),
+              DefultElevatedButton(
+                  lable: AppLocalizations.of(context)!.login, onPressed: login),
               const SizedBox(height: 8),
               TextButton(
                   onPressed: () => Navigator.of(context)
                       .pushReplacementNamed(RegisterScreen.routeName),
-                  child: const Text("Don't have an account ?"))
+                  child: Text(AppLocalizations.of(context)!.do_not_have))
             ],
           ),
         ),
@@ -72,6 +73,5 @@ class _LoginScreenState extends State<LoginScreen> {
     if (formKey.currentState!.validate()) {
       Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     }
-    ;
   }
 }
