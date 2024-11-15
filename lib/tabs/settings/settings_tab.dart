@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
 import 'package:to_do/auth/login_screen.dart';
+import 'package:to_do/auth/user_provider.dart';
 import 'package:to_do/tabs/settings/language.dart';
 import 'package:to_do/tabs/settings/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:to_do/tabs/tasks/tasks_provider.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -172,8 +174,15 @@ class _SettingsTabState extends State<SettingsTab> {
                 Text(AppLocalizations.of(context)!.logout,
                     style: theme.textTheme.titleMedium),
                 IconButton(
-                    onPressed: () => Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routeName),
+                    onPressed: () {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .updateUser(null);
+                      Provider.of<TasksProvider>(context, listen: false)
+                          .tasks
+                          .clear();
+                      Navigator.of(context)
+                          .pushReplacementNamed(LoginScreen.routeName);
+                    },
                     icon: const Icon(Icons.logout))
               ],
             ),

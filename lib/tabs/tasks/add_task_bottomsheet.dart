@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
+import 'package:to_do/auth/user_provider.dart';
 import 'package:to_do/firebase_functions.dart';
 import 'package:to_do/models/task_model.dart';
 import 'package:to_do/tabs/settings/settings_provider.dart';
@@ -129,16 +130,17 @@ class _AddTaskBottomsheetState extends State<AddTaskBottomsheet> {
   }
 
   void addTask() {
+        String userID = Provider.of<UserProvider>(context, listen: false).currentUser!.id;
     TaskModel task = TaskModel(
       title: titltcontroller.text,
       date: selectedDate,
       description: descriptiontcontroller.text,
     );
-    FirebaseFunctions.addTaskToFiresore(task).timeout(
+    FirebaseFunctions.addTaskToFiresore(task, userID ).timeout(
       const Duration(microseconds: 100),
       onTimeout: () {
         Navigator.of(context).pop();
-        Provider.of<TasksProvider>(context, listen: false).getTask();
+        Provider.of<TasksProvider>(context, listen: false).getTask(userID);
         Fluttertoast.showToast(
             msg: AppLocalizations.of(context)!.task_added_successfully,
             toastLength: Toast.LENGTH_LONG,

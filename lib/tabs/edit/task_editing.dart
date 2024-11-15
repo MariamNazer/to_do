@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
+import 'package:to_do/auth/user_provider.dart';
 import 'package:to_do/firebase_functions.dart';
 import 'package:to_do/home_screen.dart';
 import 'package:to_do/tabs/settings/settings_provider.dart';
@@ -36,13 +37,21 @@ class _TaskEditingState extends State<TaskEditing> {
   var formKey = GlobalKey<FormState>();
   DateFormat dateFormat = DateFormat('dd/mm/yyyy');
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    // تهيئة القيم الأولية
     titltcontroller.text = widget.title;
     descriptiontcontroller.text = widget.desc;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ThemeData theme = Theme.of(context);
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    String userID =
+        Provider.of<UserProvider>(context, listen: false).currentUser!.id;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -129,12 +138,13 @@ class _TaskEditingState extends State<TaskEditing> {
                         InkWell(
                           onTap: () async {
                             DateTime? dateTime = await showDatePicker(
-                                context: context,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime.now()
-                                    .add(const Duration(days: 365)),
-                                initialDate: widget.selectedDate,
-                                initialEntryMode: DatePickerEntryMode.calendar);
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate:
+                                  DateTime.now().add(const Duration(days: 365)),
+                              initialDate: widget.selectedDate,
+                              initialEntryMode: DatePickerEntryMode.calendar,
+                            );
                             if (dateTime != null &&
                                 widget.selectedDate != dateTime) {
                               widget.selectedDate = dateTime;
@@ -158,17 +168,17 @@ class _TaskEditingState extends State<TaskEditing> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               FirebaseFunctions.editTaskStatus(
-                                widget.taskId,
-                                titltcontroller.text,
-                                descriptiontcontroller.text,
-                                widget.selectedDate,
-                              ).timeout(
-                                const Duration(microseconds: 100),
-                                onTimeout: () {
+                                      widget.taskId,
+                                      titltcontroller.text,
+                                      descriptiontcontroller.text,
+                                      widget.selectedDate,
+                                      userID)
+                                  .then(
+                                (_) {
                                   Navigator.of(context).pop();
                                   Provider.of<TasksProvider>(context,
                                           listen: false)
-                                      .getTask();
+                                      .getTask(userID);
                                   Navigator.of(context).pushReplacementNamed(
                                       HomeScreen.routeName);
                                 },

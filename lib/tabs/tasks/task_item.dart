@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
+import 'package:to_do/auth/user_provider.dart';
 import 'package:to_do/firebase_functions.dart';
 import 'package:to_do/models/task_model.dart';
 import 'package:to_do/tabs/edit/task_editing.dart';
@@ -25,6 +26,7 @@ class _TaskItemState extends State<TaskItem> {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
 
     ThemeData theme = Theme.of(context);
+    String userID = Provider.of<UserProvider>(context, listen: false).currentUser!.id;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
@@ -43,7 +45,7 @@ class _TaskItemState extends State<TaskItem> {
           );
 
           // تحديث القائمة بعد التعديل
-          Provider.of<TasksProvider>(context, listen: false).getTask();
+          Provider.of<TasksProvider>(context, listen: false).getTask(userID);
         },
         child: Slidable(
           startActionPane: ActionPane(
@@ -51,12 +53,12 @@ class _TaskItemState extends State<TaskItem> {
             children: [
               SlidableAction(
                 onPressed: (_) {
-                  FirebaseFunctions.deleteTaskFromFirestore(widget.task.taskId)
+                  FirebaseFunctions.deleteTaskFromFirestore(widget.task.taskId, userID)
                       .timeout(const Duration(microseconds: 5000),
                           onTimeout: () =>
                               // ignore: use_build_context_synchronously
                               Provider.of<TasksProvider>(context, listen: false)
-                                  .getTask())
+                                  .getTask(userID))
                       .catchError((error) {
                     Fluttertoast.showToast(
                         msg: AppLocalizations.of(context)!.something_went_wrong,
@@ -127,7 +129,7 @@ class _TaskItemState extends State<TaskItem> {
                         widget.task.isDone = !widget.task.isDone;
                       });
                       FirebaseFunctions.updateTaskStatus(
-                          widget.task.taskId, widget.task.isDone);
+                          widget.task.taskId, widget.task.isDone, userID);
                     },
                     child: Center(
                       child: widget.task.isDone

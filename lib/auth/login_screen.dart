@@ -1,5 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do/app_theme.dart';
 import 'package:to_do/auth/register_screen.dart';
+import 'package:to_do/auth/user_provider.dart';
+import 'package:to_do/firebase_functions.dart';
 import 'package:to_do/home_screen.dart';
 import 'package:to_do/widgets/dafult_text_form_fielld.dart';
 import 'package:to_do/widgets/defult_elevated_button.dart';
@@ -56,7 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 30),
               DefultElevatedButton(
-                  lable: AppLocalizations.of(context)!.login, onPressed: login),
+                  lable: AppLocalizations.of(context)!.login,
+                  onPressed: () => login()),
               const SizedBox(height: 8),
               TextButton(
                   onPressed: () => Navigator.of(context)
@@ -71,7 +78,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void login() {
     if (formKey.currentState!.validate()) {
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      FirebaseFunctions.login(
+              email: emailController.text.trim(),
+              password: passwordController.text)
+          .then((User) {
+        print('Success');
+        Provider.of<UserProvider>(context, listen: false).updateUser(User);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }).catchError((error) {
+        String? message;
+        if (error is FirebaseAuthException) {
+          message = error.message;
+        }
+        Fluttertoast.showToast(
+            msg: message ?? AppLocalizations.of(context)!.something_went_wrong,
+            toastLength: Toast.LENGTH_LONG,
+            timeInSecForIosWeb: 5,
+            backgroundColor: AppTheme.red,
+            textColor: AppTheme.white);
+      });
     }
   }
 }

@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/app_theme.dart';
 import 'package:to_do/auth/login_screen.dart';
 import 'package:to_do/auth/register_screen.dart';
+import 'package:to_do/auth/user_provider.dart';
 import 'package:to_do/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:to_do/tabs/settings/settings_provider.dart';
@@ -14,12 +14,12 @@ Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //لازم اسخدمها عشان تتأكد ان الحاجة اللي عليها await خلصت كل ال initialization كلها
   await Firebase.initializeApp();
-  await FirebaseFirestore.instance.disableNetwork();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
         ChangeNotifierProvider(create: (_) => TasksProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const TodoApp(),
     ),
